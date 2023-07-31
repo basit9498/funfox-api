@@ -14,8 +14,11 @@ route.post(
       .trim(),
     body('email', `'Email' Enter Valid email.`)
       .notEmpty()
+      .bail()
       .isEmail()
+      .bail()
       .normalizeEmail()
+      .bail()
       .custom((value, { req }) => {
         return UserModel.findOne({ email: value }).then((user) => {
           if (user) {
@@ -30,14 +33,19 @@ route.post(
     body('password')
       .notEmpty()
       .withMessage('Password is required.')
+      .bail()
       .isLength({ min: 6 })
       .withMessage('Password should be at least 6 characters long.')
+      .bail()
       .matches(/[a-zA-Z]/)
       .withMessage('Password should contain at least one alphabet sign.')
+      .bail()
       .matches(/\d/)
       .withMessage('Password should contain at least one number.')
+      .bail()
       .matches(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/)
       .withMessage('Password should contain at least one special character.'),
+
     body('conform_password', "'Conform Password' Please Provide")
       .notEmpty()
       .custom((value, { req }) => {

@@ -16,6 +16,11 @@ const groupTaskSchema = new Schema({
     required: true,
     default: 1,
   },
+  is_complete: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   group_id: {
     type: Schema.Types.ObjectId,
     ref: 'Group',

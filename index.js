@@ -47,6 +47,7 @@ moogooes
       cors: {
         origin: "http://localhost:3000",
       },
+      transports: ['websocket']
     });
     console.log("IO:", io);
     io.on("connection", (socket) => {

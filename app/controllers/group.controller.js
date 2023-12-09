@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const GroupModel = require('../models/group.model');
 const UserModel = require('../models/user.model');
-
+const mongoose = require('mongoose');
 // create group
 module.exports.createGroup = async (req, res, next) => {
   try {
@@ -36,7 +36,33 @@ module.exports.getGroup = async (req, res, next) => {
   try {
     const group = await GroupModel.find({
       $or: [{ owner_id: req.userId }, { users: req.userId }],
-    }).populate({ path: 'users', select: 'name email' });
+    })
+      .populate({ path: 'owner_id', select: 'name email' })
+      .populate({ path: 'users', select: 'name email' });
+    // const userId = new mongoose.Types.ObjectId(req.userId);
+    // const group = await GroupModel.aggregate([
+    //   {
+    //     $match: {
+    //       $or: [{ owner_id: userId }, { users: userId }],
+    //     },
+    //   },
+    //   {
+    //     $lookup: {
+    //       from: 'users',
+    //       localField: 'owner_id',
+    //       foreignField: '_id',
+    //       as: 'owner',
+    //     },
+    //   },
+    //   {
+    //     $lookup: {
+    //       from: 'users',
+    //       localField: 'users',
+    //       foreignField: '_id',
+    //       as: 'members',
+    //     },
+    //   },
+    // ]);
     res.status(200).json({
       message: 'Groups',
       group: group,

@@ -8,6 +8,8 @@ const groupSchema = new Schema({
     required: true,
   },
   owner_id: {
+    // type: Schema.Types.ObjectId,
+    // ref: 'User',
     type: String,
     required: true,
   },
